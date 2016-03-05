@@ -106,9 +106,11 @@ public class SimpleInvite extends JavaPlugin implements Listener {
             return true;
         }
 
-
-
         if(cmd.getName().equalsIgnoreCase("simpleInvite")){
+            if (args[0].equalsIgnoreCase("reload")) {
+                Config.load(getConfig());
+                sender.sendMessage("&6[&fSI&6]&a Configuration successfully reloaded.");
+            }
             return true;
         }
 
