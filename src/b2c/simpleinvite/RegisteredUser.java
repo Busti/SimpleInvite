@@ -1,5 +1,8 @@
 package b2c.simpleinvite;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -13,12 +16,14 @@ public class RegisteredUser {
     public final String name;
     public final long   invitedBy;
     public final long   joinDate;
+    public final String reason;
 
-    public RegisteredUser(int id, String name, long invitedBy, long joinDate) {
+    public RegisteredUser(long id, String name, long invitedBy, long joinDate, String reason) {
         this.id = id;
         this.name = name;
         this.invitedBy = invitedBy;
         this.joinDate = joinDate;
+        this.reason = reason;
     }
 
 
@@ -48,4 +53,20 @@ public class RegisteredUser {
     }
 
 
+    public static RegisteredUser read(DataInputStream input) throws IOException {
+        long id         = input.readLong();
+        String name     = input.readUTF();
+        long invitedBy  = input.readLong();
+        long joinDate   = input.readLong();
+        String reason   = input.readUTF();
+        return new RegisteredUser(id, name, invitedBy, joinDate, reason);
+    }
+
+    public void write(DataOutputStream output) throws IOException {
+        output.writeLong(id);
+        output.writeUTF(name);
+        output.writeLong(invitedBy);
+        output.writeLong(joinDate);
+        output.writeUTF(reason);
+    }
 }
