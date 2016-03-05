@@ -9,3 +9,5 @@ commands:
     usage: /&lt;command&gt <username> <reason>
 
 permissions:
+  simpleinvite.invite:
+    description: Allows a user to invite others.

@@ -1,9 +1,23 @@
 Commands:
-    /invite
-        - Invites a user to play on the server.
+    /invite <playername> <reason>
+    /simpleinvite invite <playername> <reason>
+        - Invites a user to play on the server
+        - A reason MUST be provided
         - Has a certain timeout (configurable)
-        -
+        - Players can only be invited by one other player
+    /simpleinvite reason <playername>
+        Displays the reason a player was invited for and the inviting persons username (Not specifically in that order)
+    /simpleinvite strikes
+        Displays the amount of strikes a player has
 
 General:
     Every user has a storage file / file-section containing:
         - Username / UUID
+        - The reason they got invited
+        - The player who invited them
+        - Their number of strikes
+
+Config:
+    Strike mod amount: int
+        Once the amount of strikes mod this number = this number an action will be taken.
+    Strike action: The command to execute on a strike action (e.g. Ban / Timeout / Stripping of the invite command)
