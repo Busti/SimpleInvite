@@ -2,3 +2,6 @@ name: Simple Invite
 version: 0.1
 author: chloroplast, busti3000
 main: b2c.simpleinvite.Main
+commands:
+  invite:
+    description: To be added...
