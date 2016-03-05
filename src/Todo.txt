@@ -21,3 +21,6 @@ Config:
     Strike mod amount: int
         Once the amount of strikes mod this number = this number an action will be taken.
     Strike action: The command to execute on a strike action (e.g. Ban / Timeout / Stripping of the invite command)
+    maxStrikeAmount:
+    maxInvitesPerIntervall:
+    inviteIntervall: //[min]
