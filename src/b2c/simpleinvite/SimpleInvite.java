@@ -2,12 +2,12 @@ package b2c.simpleinvite;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SimpleInvite extends JavaPlugin implements Listener {
-
     @Override
     public void onDisable() {
 
@@ -32,7 +32,6 @@ public class SimpleInvite extends JavaPlugin implements Listener {
         Player player = (Player)sender;
 
         return true;
-
     }
 
 }

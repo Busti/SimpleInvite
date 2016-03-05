@@ -7,3 +7,5 @@ commands:
   invite:
     description: Invite a user to play on the server. When that user does something bad you will get a strike.
     usage: /&lt;command&gt <username> <reason>
+
+permissions:

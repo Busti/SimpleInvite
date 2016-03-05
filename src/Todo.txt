@@ -1,0 +1,9 @@
+Commands:
+    /invite
+        - Invites a user to play on the server.
+        - Has a certain timeout (configurable)
+        -
+
+General:
+    Every user has a storage file / file-section containing:
+        - Username / UUID
