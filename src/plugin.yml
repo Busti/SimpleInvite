@@ -7,7 +7,14 @@ commands:
   invite:
     description: Invite a user to play on the server. When that user does something bad you will get a strike.
     usage: /&lt;command&gt <username> <reason>
+  reason:
+    description: Display the reason a user has been invited for.
+    usage: /&lt;command&gt <username>
 
 permissions:
   simpleinvite.invite:
     description: Allows a user to invite others.
+  simpleinvite.reason:
+    description: Allows a user to use the /reason command
+  simpleinvite.strikes:
+    description: Allows a user to use the /strikes command
