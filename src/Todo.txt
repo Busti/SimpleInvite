@@ -18,9 +18,19 @@ General:
         - Their number of strikes
 
 Config:
+    Commands on invite: Multiple commands to be executed on invite...
+    Invitation timeout: in minutes
+
     Strike mod amount: int
         Once the amount of strikes mod this number = this number an action will be taken.
     Strike action: The command to execute on a strike action (e.g. Ban / Timeout / Stripping of the invite command)
     maxStrikeAmount:
     maxInvitesPerIntervall:
     inviteIntervall: //[min]
+
+    Strike action command: The command to execute on a strike action (e.g. Ban / Timeout / Stripping of the invite command)
+
+
+    Chat Responses:
+        On invitation: "Think of the consequences this could have"
+        On invited: "Welcome to the server blah. "
