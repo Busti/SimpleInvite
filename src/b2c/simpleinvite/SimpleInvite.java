@@ -3,6 +3,7 @@ package b2c.simpleinvite;
 import b2c.simpleinvite.io.Loader;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,7 +29,7 @@ public class SimpleInvite extends JavaPlugin implements Listener {
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this,  this);
         File savedData = new File(this.getDataFolder(), "SimpleInviteData");
-        if(!savedData.exists()){
+        if(!savedData.exists()) {
             this.getDataFolder().mkdirs();
 
             try {
@@ -46,6 +47,8 @@ public class SimpleInvite extends JavaPlugin implements Listener {
             e.printStackTrace();
             throw new RuntimeException("Can't read dataFile");
         }
+
+        Config.load(getConfig());
 
     }
 
