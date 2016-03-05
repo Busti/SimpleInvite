@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Peer on 05.03.2016.
@@ -12,61 +14,67 @@ public class RegisteredUser {
 
     public static ArrayList<RegisteredUser> USERS = new ArrayList<RegisteredUser>();
 
-    public final long   id;
+    public final UUID id;
     public final String name;
-    public final long   invitedBy;
-    public final long   joinDate;
+    public final UUID   invitedBy;
+    public final Date joinDate;
     public final String reason;
 
-    public RegisteredUser(long id, String name, long invitedBy, long joinDate, String reason) {
+    int strikes;
+
+    public RegisteredUser(UUID id, String name, UUID invitedBy, Date joinDate, String reason, int strikes) {
         this.id = id;
         this.name = name;
         this.invitedBy = invitedBy;
         this.joinDate = joinDate;
         this.reason = reason;
+
+        this.strikes = strikes;
     }
 
 
-    public static RegisteredUser getUserByID(long id){
+    public static RegisteredUser getUserBy(UUID id){
         for(RegisteredUser ru: RegisteredUser.USERS){
-            if(ru.id == id){
+            if(ru.id.equals(id)){
+                return ru;
+            }
+        }
+        return null;
+    }
+    public static RegisteredUser getUser(String name){
+        for(RegisteredUser ru: RegisteredUser.USERS){
+            if(ru.name.equals(name)){
                 return ru;
             }
         }
         return null;
     }
 
-    public static long getFreeID(){
-        for(long current = 0; !isIDFree(current); ++current){
-            return current;
-        }
-        throw new RuntimeException("all IDs are in use");
-    }
-
-    public static boolean isIDFree(long id){
-        for(RegisteredUser ru: RegisteredUser.USERS){
-            if(ru.id == id){
-                return false;
-            }
-        }
-        return true;
-    }
 
 
     public static RegisteredUser read(DataInputStream input) throws IOException {
-        long id         = input.readLong();
-        String name     = input.readUTF();
-        long invitedBy  = input.readLong();
-        long joinDate   = input.readLong();
-        String reason   = input.readUTF();
-        return new RegisteredUser(id, name, invitedBy, joinDate, reason);
+        long UUIDMostSig        = input.readLong();
+        long UUIDLeastSig       = input.readLong();
+        String name             = input.readUTF();
+        long invitedByUUIDMost  = input.readLong();
+        long invitedByUUIDLeast = input.readLong();
+        long joinDate           = input.readLong();
+        String reason           = input.readUTF();
+
+        int strikes             = input.readInt();
+
+        return new RegisteredUser( new UUID(UUIDMostSig, UUIDLeastSig), name, new UUID(invitedByUUIDMost, invitedByUUIDLeast), new Date(joinDate), reason, strikes );
     }
 
     public void write(DataOutputStream output) throws IOException {
-        output.writeLong(id);
+        output.writeLong(id.getMostSignificantBits());
+        output.writeLong(id.getLeastSignificantBits());
         output.writeUTF(name);
-        output.writeLong(invitedBy);
-        output.writeLong(joinDate);
+        output.writeLong(invitedBy.getMostSignificantBits());
+        output.writeLong(invitedBy.getLeastSignificantBits());
+        output.writeLong(joinDate.getTime());
         output.writeUTF(reason);
+
+        output.writeInt(strikes);
     }
 }
