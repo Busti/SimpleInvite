@@ -5,8 +5,8 @@ package b2c.simpleinvite;
  */
 public class Invite {
 
-    String guarantorName;
-    String playerName;
+    long guarantorID;
     long timestamp;
+    String playerName;
 
 }
