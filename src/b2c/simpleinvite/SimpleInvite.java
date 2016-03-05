@@ -100,7 +100,7 @@ public class SimpleInvite extends JavaPlugin implements Listener {
 
 
 
-            Invite invite = new Invite(player.getUniqueId(), new Date(), );
+            Invite invite = new Invite(player.getUniqueId(), new Date(), nameOfInvitedPlayer, reason);
 
 
             return true;
