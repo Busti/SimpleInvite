@@ -1,7 +1,9 @@
 name: Simple Invite
 version: 0.1
-author: chloroplast, busti3000
+author: Chloroplast
+authors: [Chloroplast, Busti3000]
 main: b2c.simpleinvite.Main
 commands:
   invite:
-    description: To be added...
+    description: Invite a user to play on the server. When that user does something bad you will get a strike.
+    usage: /&lt;command&gt <username> <reason>
