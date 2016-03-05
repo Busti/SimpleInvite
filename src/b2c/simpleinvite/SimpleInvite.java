@@ -3,7 +3,7 @@ package b2c.simpleinvite;
 import b2c.simpleinvite.io.Loader;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,7 +51,10 @@ public class SimpleInvite extends JavaPlugin implements Listener {
             throw new RuntimeException("Can't read dataFile");
         }
 
+        Config.load(getConfig());
+
     }
+
 
 
     @Override
