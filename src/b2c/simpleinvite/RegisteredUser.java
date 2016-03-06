@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 public class RegisteredUser {
 
-    public static ArrayList<RegisteredUser> USERS = new ArrayList<RegisteredUser>();
+    public final static ArrayList<RegisteredUser> USERS = new ArrayList<RegisteredUser>();
 
     public final UUID id;
     public final String name;
@@ -43,7 +43,7 @@ public class RegisteredUser {
     }
     public static RegisteredUser getUser(String name){
         for(RegisteredUser ru: RegisteredUser.USERS){
-            if(ru.name.equals(name)){
+            if(ru.name.equalsIgnoreCase(name)){
                 return ru;
             }
         }

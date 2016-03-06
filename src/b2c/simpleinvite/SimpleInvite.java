@@ -5,7 +5,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -94,14 +96,17 @@ public class SimpleInvite extends JavaPlugin implements Listener {
                 sender.sendMessage("the name of a player can't be greater than 16");
                 return false;
             }
-            if(reason.length() > 30){
-
+            if(reason.length() > Config.REASON_LENGTH){
+                sender.sendMessage("the reason must not be greater than "+Config.REASON_LENGTH);
+                return false;
             }
 
-
+            if(Invite.getInviteForName(nameOfInvitedPlayer) != null){
+                sender.sendMessage("this player was already invited");
+                return false;
+            }
 
             Invite invite = new Invite(player.getUniqueId(), new Date(), nameOfInvitedPlayer, reason);
-
 
             return true;
         }
@@ -113,6 +118,28 @@ public class SimpleInvite extends JavaPlugin implements Listener {
         }
 
         return false;
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event){
+        String playerName = event.getPlayer().getName();
+
+        Invite invite = Invite.getInviteForName(playerName);
+        if( invite != null){
+
+            if(((new Date().getTime()-invite.timestamp.getTime())/60000) > Config.INVITATION_TIMEOUT){
+                return; //invite is timed out
+            }
+
+            for(String command: Config.INVITATION_COMMANDS){
+                getServer().dispatchCommand(getServer().getConsoleSender(), command.replaceAll("%player%", playerName));
+            }
+            RegisteredUser.USERS.add(new RegisteredUser(event.getPlayer().getUniqueId(), playerName, invite.guarantorID, new Date(), invite.reason, 0));
+            Invite.INVITATIONEN.remove(invite);
+
+            event.getPlayer().sendMessage("Welcome on this Server");
+            event.getPlayer().sendMessage(invite.playerName + "is your guarantor!" );
+        }
     }
 
 }

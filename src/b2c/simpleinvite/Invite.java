@@ -26,6 +26,15 @@ public class Invite {
         this.reason = reason;
     }
 
+    public static Invite getInviteForName(String name){
+        for(Invite invite: Invite.INVITATIONEN){
+            if(invite.playerName.equalsIgnoreCase(name)){
+                return invite;
+            }
+        }
+        return null;
+    }
+
 
     public static Invite read(DataInputStream input) throws IOException {
         long guarantorIDMost    = input.readLong();
