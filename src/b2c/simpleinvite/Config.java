@@ -10,8 +10,8 @@ public class Config {
     public static List<String> INVITATION_COMMANDS;
     public static int STRIKE_MOD;
     public static List<String> STRIKE_COMMANDS;
-    public static int INTERVAL_INVITES;
-    public static int INTERVAL_TIME;
+    public static int MAX_INVITES_PER_INTERVALL;
+    public static int INVITE_INTERVAL_TIME;
     public static int REASON_LENGTH;
 
     public static void load(FileConfiguration cfg) {
@@ -24,9 +24,9 @@ public class Config {
         cfg.addDefault("Strike action", Arrays.asList("ban %user%", "say %user% has now %strikes% strikes and is being punished"));
         STRIKE_COMMANDS = cfg.getStringList("Strike action");
         cfg.addDefault("Maximum invites per interval", 5);
-        INTERVAL_INVITES = cfg.getInt("Maximum invites per interval");
+        MAX_INVITES_PER_INTERVALL = cfg.getInt("Maximum invites per interval");
         cfg.addDefault("Interval length", 30);
-        INTERVAL_TIME = cfg.getInt("Interval length");
+        INVITE_INTERVAL_TIME = cfg.getInt("Interval length");
         cfg.addDefault("Maximum reason length", 32);
         REASON_LENGTH = cfg.getInt("Maximum reason length");
     }

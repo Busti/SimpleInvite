@@ -35,6 +35,19 @@ public class Invite {
         return null;
     }
 
+    public static ArrayList<Invite> getInvitesFromPlayer(long periodOfTime, UUID playerUUID){
+        ArrayList<Invite> invites = new ArrayList<Invite>();
+        Date currentDate = new Date();
+        for(Invite inv: Invite.INVITATIONEN){
+            if(inv.guarantorID.equals(playerUUID)){
+                if( currentDate.getTime()-inv.timestamp.getTime() <= periodOfTime){
+                    invites.add(inv);
+                }
+            }
+        }
+        return invites;
+    }
+
 
     public static Invite read(DataInputStream input) throws IOException {
         long guarantorIDMost    = input.readLong();

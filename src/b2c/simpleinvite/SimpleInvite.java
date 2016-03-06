@@ -92,6 +92,10 @@ public class SimpleInvite extends JavaPlugin implements Listener {
             }
             String reason = reasonBuilder.toString();
 
+            if(Invite.getInvitesFromPlayer(Config.INVITE_INTERVAL_TIME*60000, player.getUniqueId()).size() >= Config.MAX_INVITES_PER_INTERVALL){
+                sender.sendMessage("You can only invite "+Config.MAX_INVITES_PER_INTERVALL+" per "+Config.INVITE_INTERVAL_TIME+" min");
+                return false;
+            }
             if(nameOfInvitedPlayer.length() > 16) {
                 sender.sendMessage("the name of a player can't be greater than 16");
                 return false;
