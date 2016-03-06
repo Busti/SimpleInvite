@@ -116,8 +116,18 @@ public class SimpleInvite extends JavaPlugin implements Listener {
         }
 
         if(cmd.getName().equalsIgnoreCase("simpleInvite")){
+            if(args.length == 0){
+                return true;
+            }
             if (args[0].equalsIgnoreCase("reload")) {
                 Config.load(getConfig());
+                try {
+                    dataLoader.writeData();
+                } catch (IOException e) {
+                    sender.sendMessage("ERROR: failed to save DataFile:");
+                    sender.sendMessage(e.getMessage());
+                    e.printStackTrace();
+                }
                 sender.sendMessage("&6[&fSI&6]&a Configuration successfully reloaded.");
             }
             return true;
