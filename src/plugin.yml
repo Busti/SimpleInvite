@@ -11,19 +11,26 @@ commands:
     description: List all simpleinvite commands.
     usage: |
       /&lt;command&gt -List all simpleinvite commands
-      /&lt;command&gt reason <username> -Display the reason this user was invited.
-      /&lt;command&gt strikes <username> -Display the amount of strikes this user has.
+      /&lt;command&gt info <username> -Display the reason, the joindate and the guarantor of this user.
       /&lt;command&gt reload -Reload the configuration file.
-      /&lt;command&gt list -shows a list of all Invites from the player
+      /&lt;command&gt list -shows a list of all Invites from the player executing the command
       /&lt;command&gt list <username> -shows a list of all Invites from the player
+      /&lt;command&gt clear <username> -remove all invites from the player
+      /&lt;command&gt clear <username> -remove all invites from the player
 
 
 permissions:
   simpleinvite.invite:
     description: Allows a user to invite others.
-  simpleinvite.reason:
-    description: Allows a user to use the /reason command
-  simpleinvite.strikes:
-    description: Allows a user to use the /strikes command
-    simpleinvite.list:
-        description: Allows a user to use the /list <user> command (not /list)
+  simpleinvite.info:
+    description: Allows a user to use the /info command
+  simpleinvite.list:
+    description: Allows a user to use the /list <user> command (not /list without name)
+  simpleinvite.listself:
+    description: Allows a user to use the /list command (not /list <user> with name)
+  simpleinvite.reload:
+    description: Allows a user to use the /reload command
+  simpleinvite.clear:
+    description: Allows a user to use the /clear <user> command (not /clear without name)
+  simpleinvite.clearself:
+    description: Allows a user to use the /clear command (not /clear <user> with name)

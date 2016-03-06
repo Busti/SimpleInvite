@@ -48,6 +48,10 @@ public class Invite {
         return invites;
     }
 
+    public boolean isValid(Date currentDate) {
+        return currentDate.getTime() - timestamp.getTime() <= Config.INVITATION_TIMEOUT*60000;
+    }
+
 
     public static Invite read(DataInputStream input) throws IOException {
         long guarantorIDMost    = input.readLong();
@@ -65,5 +69,6 @@ public class Invite {
         output.writeUTF(playerName);
         output.writeUTF(reason);
     }
+
 
 }

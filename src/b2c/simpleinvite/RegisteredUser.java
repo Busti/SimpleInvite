@@ -32,6 +32,19 @@ public class RegisteredUser {
         this.strikes = strikes;
     }
 
+    public static ArrayList<RegisteredUser> getUserInvitedBy(long periodOfTime, UUID invitator){
+        ArrayList<RegisteredUser> user = new ArrayList<RegisteredUser>();
+        Date currentTime = new Date();
+        for(RegisteredUser ru: RegisteredUser.USERS){
+            if(ru.invitedBy.equals(invitator)){
+                if(currentTime.getTime()-ru.joinDate.getTime() <= periodOfTime){
+                    user.add(ru);
+                }
+            }
+        }
+        return user;
+    }
+
 
     public static RegisteredUser getUserBy(UUID id){
         for(RegisteredUser ru: RegisteredUser.USERS){
