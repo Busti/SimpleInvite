@@ -44,6 +44,12 @@ public class CommandExecuter {
             player.sendMessage("You can only invite "+Config.MAX_INVITES_PER_INTERVALL+" per "+Config.INVITE_INTERVAL_TIME+" min");
             return false;
         }
+        Date currentDate = new Date();
+        if( (currentDate.getTime() - invitator.joinDate.getTime()) > (Config.HOURS_BEFORE_REINVITE * 24 * 60 * 1000) ){
+            player.sendMessage("You must play an amount of time on this server if you want to  invite someone");
+            return false;
+        }
+
         if(nameOfInvitedPlayer.length() > 16) {
             player.sendMessage("the name of a player can't be greater than 16");
             return false;

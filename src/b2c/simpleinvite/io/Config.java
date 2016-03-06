@@ -13,6 +13,7 @@ public class Config {
     public static int MAX_INVITES_PER_INTERVALL;
     public static int INVITE_INTERVAL_TIME;
     public static int REASON_LENGTH;
+    public static int HOURS_BEFORE_REINVITE;
 
     public static void load(FileConfiguration cfg) {
         cfg.addDefault("Invitation timeout in minutes", 60);
@@ -29,6 +30,8 @@ public class Config {
         INVITE_INTERVAL_TIME = cfg.getInt("Interval length");
         cfg.addDefault("Maximum reason length", 32);
         REASON_LENGTH = cfg.getInt("Maximum reason length");
+        cfg.addDefault("hoursbeforereinvite", 7*24);
+        HOURS_BEFORE_REINVITE = cfg.getInt("hoursbeforereinvite");
     }
 
 }
