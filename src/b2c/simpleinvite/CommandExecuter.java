@@ -136,7 +136,7 @@ public class CommandExecuter {
     }
 
     public void clear(CommandSender sender, UUID idFromPlayerToClear){
-        ArrayList<Invite> invitesFromPlayer = Invite.getInvitesFromPlayer(Config.INVITE_INTERVAL_TIME*60000, player.getUniqueId());
+        ArrayList<Invite> invitesFromPlayer = Invite.getInvitesFromPlayer(Config.INVITE_INTERVAL_TIME*60000, idFromPlayerToClear);
         Invite.INVITATIONEN.removeAll(invitesFromPlayer);
     }
 
