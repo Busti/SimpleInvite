@@ -1,5 +1,7 @@
 package b2c.simpleinvite;
 
+import b2c.simpleinvite.io.Config;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

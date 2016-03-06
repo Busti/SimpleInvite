@@ -1,4 +1,4 @@
-package b2c.simpleinvite;
+package b2c.simpleinvite.io;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
