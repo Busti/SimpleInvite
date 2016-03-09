@@ -12,11 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 public class SimpleInvite extends JavaPlugin implements Listener {
 
@@ -35,10 +31,10 @@ public class SimpleInvite extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        getServer().getPluginManager().registerEvents(this,  this);
+        getServer().getPluginManager().registerEvents(this, this);
 
         File savedData = new File(this.getDataFolder(), "SimpleInviteData");
-        if(!savedData.exists()) {
+        if (!savedData.exists()) {
             this.getDataFolder().mkdirs();
 
             try {
@@ -62,46 +58,45 @@ public class SimpleInvite extends JavaPlugin implements Listener {
     }
 
 
-
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
-        if(cmd.getName().equalsIgnoreCase("invite")){
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (cmd.getName().equalsIgnoreCase("invite")) {
 
-            if(!sender.hasPermission("simpleinvite.invite")){
+            if (!sender.hasPermission("simpleinvite.invite")) {
                 sender.sendMessage("Sorry, you don't have the permission to do that");
                 return false;
             }
-            if(args.length < 2){
+            if (args.length < 2) {
                 sender.sendMessage("you need to type the name of the player and the reason why you want to invite him");
                 return false;
             }
 
             String nameOfInvitedPlayer = args[0];
             StringBuilder reasonBuilder = new StringBuilder();
-            for(int i = 1; i < args.length; ++i){
+            for (int i = 1; i < args.length; ++i) {
                 reasonBuilder.append(args[i]);
                 reasonBuilder.append(' ');
             }
 
-            if(!(sender instanceof Player)){
+            if (!(sender instanceof Player)) {
                 sender.sendMessage("this command can only be run by a player");
                 return false;
             }
 
-            Player player = (Player)sender;
+            Player player = (Player) sender;
 
             return commandExecuter.invite(player, nameOfInvitedPlayer, reasonBuilder.toString());
         }
 
-        if(cmd.getName().equalsIgnoreCase("simpleInvite")){
-            if(args.length == 0){
+        if (cmd.getName().equalsIgnoreCase("simpleInvite")) {
+            if (args.length == 0) {
                 commandExecuter.sendAllCommands(sender);
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("reload")) {
 
-                if(!sender.hasPermission("simpleinvite.reload")){
+                if (!sender.hasPermission("simpleinvite.reload")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
                     return false;
                 }
@@ -112,46 +107,46 @@ public class SimpleInvite extends JavaPlugin implements Listener {
 
             if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
 
-                if(!sender.hasPermission("simpleinvite.listself")){
+                if (!sender.hasPermission("simpleinvite.listself")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
                     return false;
                 }
 
-                if(!(sender instanceof Player)){
+                if (!(sender instanceof Player)) {
                     sender.sendMessage("this command can only be run by a player");
                     return false;
                 }
 
-                Player player = (Player)sender;
+                Player player = (Player) sender;
 
-                commandExecuter.sendList( sender, player.getUniqueId() );
+                commandExecuter.sendList(sender, player.getUniqueId());
                 return true;
             }
 
             if (args.length == 1 && args[0].equalsIgnoreCase("clear")) {
 
-                if(!sender.hasPermission("simpleinvite.clearself")){
+                if (!sender.hasPermission("simpleinvite.clearself")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
                     return false;
                 }
 
-                if(!(sender instanceof Player)){
+                if (!(sender instanceof Player)) {
                     sender.sendMessage("this command can only be run by a player");
                     return false;
                 }
 
-                Player player = (Player)sender;
+                Player player = (Player) sender;
                 commandExecuter.clear(sender, player.getUniqueId());
                 return true;
             }
 
-            if(args.length < 2){
+            if (args.length < 2) {
                 return false;
             }
 
             if (args[0].equalsIgnoreCase("info")) {
 
-                if(!sender.hasPermission("simpleinvite.info")){
+                if (!sender.hasPermission("simpleinvite.info")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
                     return false;
                 }
@@ -160,15 +155,15 @@ public class SimpleInvite extends JavaPlugin implements Listener {
                 return true;
             }
 
-            if(args[0].equalsIgnoreCase("list")){
+            if (args[0].equalsIgnoreCase("list")) {
 
-                if(!sender.hasPermission("simpleinvite.list")){
+                if (!sender.hasPermission("simpleinvite.list")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
                     return false;
                 }
                 RegisteredUser user = RegisteredUser.getUser(args[1]);
-                if(user == null){
-                    sender.sendMessage("the given player '"+args[1]+"' is not known");
+                if (user == null) {
+                    sender.sendMessage("the given player '" + args[1] + "' is not known");
                     return true;
                 }
 
@@ -177,14 +172,14 @@ public class SimpleInvite extends JavaPlugin implements Listener {
             }
             if (args[0].equalsIgnoreCase("clear")) {
 
-                if(!sender.hasPermission("simpleinvite.clear")){
+                if (!sender.hasPermission("simpleinvite.clear")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
                     return false;
                 }
 
                 RegisteredUser user = RegisteredUser.getUser(args[1]);
-                if(user == null){
-                    sender.sendMessage("the given player '"+args[1]+"' is not known");
+                if (user == null) {
+                    sender.sendMessage("the given player '" + args[1] + "' is not known");
                     return true;
                 }
 
@@ -198,24 +193,24 @@ public class SimpleInvite extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event){
+    public void onPlayerJoin(PlayerJoinEvent event) {
         String playerName = event.getPlayer().getName();
 
         Invite invite = Invite.getInviteForName(playerName);
-        if( invite != null){
+        if (invite != null) {
 
-            if(!invite.isValid(new Date())){
+            if (!invite.isValid(new Date())) {
                 return; //invite is timed out
             }
 
-            for(String command: Config.INVITATION_COMMANDS){
+            for (String command : Config.INVITATION_COMMANDS) {
                 getServer().dispatchCommand(getServer().getConsoleSender(), command.replaceAll("%player%", playerName));
             }
             RegisteredUser.USERS.add(new RegisteredUser(event.getPlayer().getUniqueId(), playerName, invite.guarantorID, new Date(), invite.reason, 0));
             Invite.INVITATIONEN.remove(invite);
 
             event.getPlayer().sendMessage("Welcome on this Server");
-            event.getPlayer().sendMessage(invite.playerName + "is your guarantor!" );
+            event.getPlayer().sendMessage(invite.playerName + "is your guarantor!");
         }
     }
 

@@ -28,21 +28,21 @@ public class Invite {
         this.reason = reason;
     }
 
-    public static Invite getInviteForName(String name){
-        for(Invite invite: Invite.INVITATIONEN){
-            if(invite.playerName.equalsIgnoreCase(name)){
+    public static Invite getInviteForName(String name) {
+        for (Invite invite : Invite.INVITATIONEN) {
+            if (invite.playerName.equalsIgnoreCase(name)) {
                 return invite;
             }
         }
         return null;
     }
 
-    public static ArrayList<Invite> getInvitesFromPlayer(long periodOfTime, UUID playerUUID){
+    public static ArrayList<Invite> getInvitesFromPlayer(long periodOfTime, UUID playerUUID) {
         ArrayList<Invite> invites = new ArrayList<Invite>();
         Date currentDate = new Date();
-        for(Invite inv: Invite.INVITATIONEN){
-            if(inv.guarantorID.equals(playerUUID)){
-                if( currentDate.getTime()-inv.timestamp.getTime() <= periodOfTime){
+        for (Invite inv : Invite.INVITATIONEN) {
+            if (inv.guarantorID.equals(playerUUID)) {
+                if (currentDate.getTime() - inv.timestamp.getTime() <= periodOfTime) {
                     invites.add(inv);
                 }
             }
@@ -51,17 +51,17 @@ public class Invite {
     }
 
     public boolean isValid(Date currentDate) {
-        return currentDate.getTime() - timestamp.getTime() <= Config.INVITATION_TIMEOUT*60000;
+        return currentDate.getTime() - timestamp.getTime() <= Config.INVITATION_TIMEOUT * 60000;
     }
 
 
     public static Invite read(DataInputStream input) throws IOException {
-        long guarantorIDMost    = input.readLong();
-        long guarantorIDLeast   = input.readLong();
-        long timestamp          = input.readLong();
-        String playerName       = input.readUTF();
-        String reason           = input.readUTF();
-        return new Invite( new UUID(guarantorIDMost, guarantorIDLeast), new Date(timestamp), playerName, reason);
+        long guarantorIDMost = input.readLong();
+        long guarantorIDLeast = input.readLong();
+        long timestamp = input.readLong();
+        String playerName = input.readUTF();
+        String reason = input.readUTF();
+        return new Invite(new UUID(guarantorIDMost, guarantorIDLeast), new Date(timestamp), playerName, reason);
     }
 
     public void write(DataOutputStream output) throws IOException {

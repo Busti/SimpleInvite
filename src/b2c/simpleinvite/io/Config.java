@@ -30,7 +30,7 @@ public class Config {
         INVITE_INTERVAL_TIME = cfg.getInt("Interval length");
         cfg.addDefault("Maximum reason length", 32);
         REASON_LENGTH = cfg.getInt("Maximum reason length");
-        cfg.addDefault("hoursbeforereinvite", 7*24);
+        cfg.addDefault("hoursbeforereinvite", 7 * 24);
         HOURS_BEFORE_REINVITE = cfg.getInt("hoursbeforereinvite");
     }
 
