@@ -34,3 +34,4 @@ Config:
     Chat Responses:
         On invitation: "Think of the consequences this could have"
         On invited: "Welcome to the server blah. "
+        test 
