@@ -2,8 +2,11 @@ package b2c.simpleinvite;
 
 import b2c.simpleinvite.io.Config;
 import b2c.simpleinvite.io.Loader;
+import org.bukkit.World;
+import org.bukkit.block.BlockState;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,6 +36,9 @@ public class SimpleInvite extends JavaPlugin implements Listener {
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
 
+        Config.load(getConfig());
+        saveDefaultConfig();
+
         File savedData = new File(this.getDataFolder(), "SimpleInviteData");
         if (!savedData.exists()) {
             this.getDataFolder().mkdirs();
@@ -53,15 +59,12 @@ public class SimpleInvite extends JavaPlugin implements Listener {
             throw new RuntimeException("Can't read dataFile");
         }
 
-        Config.load(getConfig());
-
     }
 
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("invite")) {
-
             if (!sender.hasPermission("simpleinvite.invite")) {
                 sender.sendMessage("Sorry, you don't have the permission to do that");
                 return false;
