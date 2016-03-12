@@ -40,18 +40,20 @@ public class SimpleInvite extends JavaPlugin implements Listener {
         saveDefaultConfig();
 
         File savedData = new File(this.getDataFolder(), "SimpleInviteData");
+        dataLoader = new Loader(savedData);
         if (!savedData.exists()) {
             this.getDataFolder().mkdirs();
 
             try {
                 savedData.createNewFile();
+                dataLoader.writeData();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Can't create data file");
             }
         }
 
-        dataLoader = new Loader(savedData);
+        
         try {
             dataLoader.readData();
         } catch (IOException e) {
