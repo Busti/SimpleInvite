@@ -110,15 +110,27 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 	            throw new RuntimeException("Can't read dataFile");
 	        }
         }else{
+        	fileConfigLoader = new FileConfigurationLoader();
 	        File savedDataYML = new File(this.getDataFolder(), "simpleInviteData.yml");
 	        YamlConfiguration savedDataYMLData = new YamlConfiguration();
+	        if(!savedDataYML.exists()){
+	        	fileConfigLoader.save(savedDataYMLData);
+	        	try {
+					savedDataYMLData.save(savedDataYML);
+				} catch (IOException e) {
+					e.printStackTrace();
+					throw new RuntimeException("Cant default create the dataFile.yml");
+				}
+	        	
+	        }
+	        
 	        try {
 				savedDataYMLData.load(savedDataYML);
 			} catch (IOException | InvalidConfigurationException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				throw new RuntimeException("the dataFile.yml is invalid or can't be read");
 			}
-	        fileConfigLoader = new FileConfigurationLoader();
+	        
 	        fileConfigLoader.read(savedDataYMLData);
         }   
 

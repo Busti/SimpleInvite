@@ -54,7 +54,6 @@ public class Invite {
     }
 
     public boolean isValid(Date currentDate) {
-    	Log.getCurrent().log("isValid? "+currentDate.getTime()+" - "+timestamp.getTime()+" <= "+Config.INVITATION_TIMEOUT+" * "+60000);
         return currentDate.getTime() - timestamp.getTime() <= Config.INVITATION_TIMEOUT * 60000;
     }
 

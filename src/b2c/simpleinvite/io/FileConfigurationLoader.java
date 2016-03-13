@@ -50,44 +50,56 @@ public class FileConfigurationLoader {
 		}
 		Log.getCurrent().log("reading RegisteredUser section");
 		ConfigurationSection registeredUserSection = dataFile.getConfigurationSection("registeredUser");
-		Set<String> names = registeredUserSection.getKeys(false);
 		
-		for(String name: names){
-			RegisteredUser user = new RegisteredUser(
-					UUID.fromString(registeredUserSection.getString(name+".id")), 
-					name, 
-					UUID.fromString(registeredUserSection.getString(name+".invite")), 
-					new Date(registeredUserSection.getLong(name+".joinDate")), 
-					registeredUserSection.getString(name+".reason"), 
-					registeredUserSection.getInt(name+".strikes"));
+		if(registeredUserSection != null){
 			
-					RegisteredUser.USERS.add(user);
-					Log.getCurrent().log("    "+user.toString());
-            
+			Set<String> names = registeredUserSection.getKeys(false);
+			
+			for(String name: names){
+				RegisteredUser user = new RegisteredUser(
+						UUID.fromString(registeredUserSection.getString(name+".id")), 
+						name, 
+						UUID.fromString(registeredUserSection.getString(name+".invite")), 
+						new Date(registeredUserSection.getLong(name+".joinDate")), 
+						registeredUserSection.getString(name+".reason"), 
+						registeredUserSection.getInt(name+".strikes"));
+				
+						RegisteredUser.USERS.add(user);
+						Log.getCurrent().log("    "+user.toString());
+	            
+			}
 		}
+		
+
 		
 		
 		Log.getCurrent().log("reading Invite section");
 		ConfigurationSection inviteSection = dataFile.getConfigurationSection("invite");
-        names = registeredUserSection.getKeys(false);
-        Date currentDate = new Date();
-        for(String name: names){
-        	
-        	Invite invite = new Invite(
-        			UUID.fromString(inviteSection.getString(name+".guarantorID")),
-        			new Date(inviteSection.getLong(name+".timestamp")),
-        			name, 
-        			inviteSection.getString(name+".reason"));
-        	
-        	Log.getCurrent().log("    "+invite.toString());
-        	if(invite.isValid(currentDate)){
-        		Invite.INVITATIONEN.add(invite);
-        	}else{
-        		Log.getCurrent().log("    discard, invite expired");
-        	}
-        	
-        	
-        }
+		
+		if(inviteSection != null){
+			
+			Set<String> names = inviteSection.getKeys(false);
+			
+			Date currentDate = new Date();
+	        for(String name: names){
+	        	
+	        	Invite invite = new Invite(
+	        			UUID.fromString(inviteSection.getString(name+".guarantorID")),
+	        			new Date(inviteSection.getLong(name+".timestamp")),
+	        			name, 
+	        			inviteSection.getString(name+".reason"));
+	        	
+	        	Log.getCurrent().log("    "+invite.toString());
+	        	if(invite.isValid(currentDate)){
+	        		Invite.INVITATIONEN.add(invite);
+	        	}else{
+	        		Log.getCurrent().log("    discard, invite expired");
+	        	}
+	        	
+	        }
+	        
+		}
+		
         
         Log.getCurrent().log("load complete");
 		
