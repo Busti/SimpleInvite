@@ -2,7 +2,7 @@ name: SimpleInvite
 version: 0.1
 author: Chloroplast
 authors: [Chloroplast, Busti3000]
-main: b2c.simpleinvite.SimpleInvite
+main: b2c.simpleinvite.SimpleInvitePlugin
 commands:
   invite:
     description: Invite a user to play on this server. When this user does something bad you will get a strike.

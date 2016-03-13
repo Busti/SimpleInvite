@@ -113,7 +113,7 @@ public class CommandExecuter {
         }
     }
 
-    public boolean reload(CommandSender sender, SimpleInvite plugin) {
+    public boolean reload(CommandSender sender, SimpleInvitePlugin plugin) {
         Config.load(plugin.getConfig());
         try {
             plugin.getDataLoader().writeData();
