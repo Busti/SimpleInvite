@@ -1,14 +1,15 @@
+debug: false
 invite:
-    timeoutMin: 60
-    maxInvitesPerintervall: 5
-    intervalLengthMin: 30
-    maxReasonLength: 32
-    cooldownReinviteHours: 168
-    commands:
-        - say There is a new member %user% on the server!
-        - pex user %user% group set Member
+  timeoutMin: 60
+  maxInvitesPerintervall: 5
+  intervalLengthMin: 30
+  maxReasonLength: 32
+  cooldownReinviteHours: 168
+  commands:
+    - say There is a new member %user% on the server!
+    - pex user %user% group set Member
 strike:
-    maxAmount: 3
-    action:
-        - ban %user%
-        - say %user% has now %strikes% strikes and is being punished
+  maxAmount: 3
+  action:
+    - ban %user%
+    - say %user% has now %strikes% strikes and is being punished
