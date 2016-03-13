@@ -46,6 +46,19 @@ public class SimpleInvite extends JavaPlugin implements Listener {
         Log.getCurrent().log("Starting the plugin");
         Log.getCurrent().log("");
         
+        
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
+        
+        File configFile = new File(getDataFolder(), "config.yml");
+        if (!configFile.exists()) {
+            Log.getCurrent().log("config.yml not found, creating!");
+            saveDefaultConfig();
+        } else {
+            Log.getCurrent().log("config.yml found, loading!");
+        }
+        
         File savedData = new File(this.getDataFolder(), "SimpleInviteData");
         dataLoader = new Loader(savedData);
         if (!savedData.exists()) {
