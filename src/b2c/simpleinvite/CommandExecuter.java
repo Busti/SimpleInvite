@@ -44,7 +44,7 @@ public class CommandExecuter {
             return false;
         }
         Date currentDate = new Date();
-        if ((currentDate.getTime() - invitator.joinDate.getTime()) > (Config.HOURS_BEFORE_REINVITE * 24 * 60 * 1000)) {
+        if ((currentDate.getTime() - invitator.joinDate.getTime()) < (Config.HOURS_BEFORE_REINVITE * 24 * 60 * 1000)) {
             player.sendMessage("You must play an amount of time on this server if you want to  invite someone");
             return false;
         }
@@ -152,7 +152,18 @@ public class CommandExecuter {
             return;
         }
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yy, hh:mm:ss");
-        sender.sendMessage("the player '" + user.name + "' was invited by '" + RegisteredUser.getUserBy(user.invitedBy).name + "' with the reason '" + user.reason +
+        RegisteredUser invitedBy = RegisteredUser.getUserBy(user.invitedBy);
+        
+        String nameInvitedBy;
+        
+        if(invitedBy != null){
+        	nameInvitedBy = invitedBy.name;
+        }else{
+        	nameInvitedBy = "[root]";
+        }
+        
+        
+        sender.sendMessage("the player '" + user.name + "' was invited by '" + nameInvitedBy + "' with the reason '" + user.reason +
                 "'. He joined " + dateFormat.format(user.joinDate) + " and has " + user.strikes + "/" + Config.STRIKE_MOD + " strikes.");
     }
 

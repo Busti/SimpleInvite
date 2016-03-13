@@ -2,11 +2,10 @@ package b2c.simpleinvite;
 
 import b2c.simpleinvite.io.Config;
 import b2c.simpleinvite.io.Loader;
-import org.bukkit.World;
-import org.bukkit.block.BlockState;
+import b2c.simpleinvite.io.Log;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,12 +32,33 @@ public class SimpleInvite extends JavaPlugin implements Listener {
     }
 
     @Override
-    public void onEnable() {
+    public void onEnable() {    	
         getServer().getPluginManager().registerEvents(this, this);
-
-        Config.load(getConfig());
-        saveDefaultConfig();
-
+        
+        try {
+			Log.init(new File(this.getDataFolder(), "Log.log"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			throw new RuntimeException("Can't create log file");
+		}
+        
+        Log.getCurrent().log("");
+        Log.getCurrent().log("Starting the plugin");
+        Log.getCurrent().log("");
+        
+        
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
+        
+        File configFile = new File(getDataFolder(), "config.yml");
+        if (!configFile.exists()) {
+            Log.getCurrent().log("config.yml not found, creating!");
+            saveDefaultConfig();
+        } else {
+            Log.getCurrent().log("config.yml found, loading!");
+        }
+        
         File savedData = new File(this.getDataFolder(), "SimpleInviteData");
         dataLoader = new Loader(savedData);
         if (!savedData.exists()) {
@@ -61,12 +81,15 @@ public class SimpleInvite extends JavaPlugin implements Listener {
             throw new RuntimeException("Can't read dataFile");
         }
 
+        Config.load(getConfig());
+
     }
 
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("invite")) {
+
             if (!sender.hasPermission("simpleinvite.invite")) {
                 sender.sendMessage("Sorry, you don't have the permission to do that");
                 return false;

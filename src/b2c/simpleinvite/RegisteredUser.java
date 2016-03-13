@@ -90,4 +90,9 @@ public class RegisteredUser {
 
         output.writeInt(strikes);
     }
+    
+    @Override
+    public String toString(){
+    	return "RegisteredUser(name="+name+", uuid="+id.toString()+", joinDate="+joinDate+", invitedBy="+invitedBy.toString()+")";
+    }
 }
