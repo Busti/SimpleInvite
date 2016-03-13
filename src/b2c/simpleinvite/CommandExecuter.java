@@ -2,8 +2,10 @@ package b2c.simpleinvite;
 
 import b2c.simpleinvite.io.Config;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +24,9 @@ public class CommandExecuter {
 
 
     public boolean invite(Player player, String nameOfInvitedPlayer, String reason) {
-
+    	
+    	nameOfInvitedPlayer = nameOfInvitedPlayer.replaceAll("\\.", "_");
+    	
         RegisteredUser invitator = RegisteredUser.getUserBy(player.getUniqueId());
 
         if (invitator == null) {
@@ -122,6 +126,36 @@ public class CommandExecuter {
 
     public boolean reload(CommandSender sender, SimpleInvitePlugin plugin) {
         Config.load(plugin.getConfig());
+        
+        
+        
+        if(Config.BINARY_MODE){
+    		try {
+    			plugin.dataLoader.writeData();
+    			sender.sendMessage("Configuration successfully reloaded.");
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    			sender.sendMessage("ERROR: failed to save DataFile (Binary):");
+    			sender.sendMessage(e.getMessage());
+    			throw new RuntimeException("Can't save dataFile (Binary)");
+    		}
+    		
+    	}else{
+    		YamlConfiguration savedDataYMLData = new YamlConfiguration();
+    		plugin.fileConfigLoader.save(savedDataYMLData);
+    		File savedDataYML = new File(plugin.getDataFolder(), "simpleInviteData.yml");
+    		try {
+    			savedDataYMLData.save(savedDataYML);
+    			sender.sendMessage("Configuration successfully reloaded.");
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    			sender.sendMessage("ERROR: failed to save DataFile (YML):");
+    			sender.sendMessage(e.getMessage());
+    			throw new RuntimeException("Can't save dataFile (YML)");
+    		}
+    	}
+
+        
         try {
             plugin.getDataLoader().writeData();
             sender.sendMessage("&6[&fSI&6]&a Configuration successfully reloaded.");

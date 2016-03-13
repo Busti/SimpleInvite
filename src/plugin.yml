@@ -1,5 +1,5 @@
 name: SimpleInvite
-version: 0.1
+version: 1.0
 author: Chloroplast
 authors: [Chloroplast, Busti3000]
 main: b2c.simpleinvite.SimpleInvitePlugin
