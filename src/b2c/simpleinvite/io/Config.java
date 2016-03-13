@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Config {
+    public static boolean DEBUG;
     public static int INVITATION_TIMEOUT;
     public static List<String> INVITATION_COMMANDS;
     public static int STRIKE_MOD;
@@ -17,6 +18,7 @@ public class Config {
 
     public static void load(FileConfiguration cfg) {
     	Log.getCurrent().log("loading config:");
+        DEBUG = cfg.getBoolean("debug");
         INVITATION_TIMEOUT 			= cfg.getInt(		"invite.timeoutMin");
         INVITATION_COMMANDS 		= cfg.getStringList("invite.commands");
 
@@ -26,17 +28,18 @@ public class Config {
         HOURS_BEFORE_REINVITE 		= cfg.getInt(		"invite.cooldownReinviteHours");
         STRIKE_MOD 					= cfg.getInt(		"strike.maxAmount");
         STRIKE_COMMANDS 			= cfg.getStringList("strike.action");
-        
-        Log.getCurrent().log("invite.timeoutMin: "+INVITATION_TIMEOUT);
-        Log.getCurrent().log("invite.commands: "+INVITATION_COMMANDS);
-        
-        Log.getCurrent().log("invite.maxInvitesPerintervall: "+MAX_INVITES_PER_INTERVALL);
-        Log.getCurrent().log("invite.intervalLengthMin: "+INVITE_INTERVAL_TIME );
-        Log.getCurrent().log("invite.maxReasonLength: "+REASON_LENGTH);
-        Log.getCurrent().log("invite.cooldownReinviteHours: "+HOURS_BEFORE_REINVITE);
-        Log.getCurrent().log("strike.maxAmount: "+STRIKE_MOD);
-        Log.getCurrent().log("strike.action: "+STRIKE_COMMANDS);
-        
+
+        if (DEBUG) {
+            Log.getCurrent().log("invite.timeoutMin: " + INVITATION_TIMEOUT);
+            Log.getCurrent().log("invite.commands: " + INVITATION_COMMANDS);
+
+            Log.getCurrent().log("invite.maxInvitesPerintervall: " + MAX_INVITES_PER_INTERVALL);
+            Log.getCurrent().log("invite.intervalLengthMin: " + INVITE_INTERVAL_TIME);
+            Log.getCurrent().log("invite.maxReasonLength: " + REASON_LENGTH);
+            Log.getCurrent().log("invite.cooldownReinviteHours: " + HOURS_BEFORE_REINVITE);
+            Log.getCurrent().log("strike.maxAmount: " + STRIKE_MOD);
+            Log.getCurrent().log("strike.action: " + STRIKE_COMMANDS);
+        }
         
     }
 

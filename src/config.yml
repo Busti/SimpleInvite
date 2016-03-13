@@ -1,3 +1,4 @@
+debug: false
 invite:
   timeoutMin: 60
   maxInvitesPerintervall: 5
