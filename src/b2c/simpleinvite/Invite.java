@@ -1,10 +1,13 @@
 package b2c.simpleinvite;
 
 import b2c.simpleinvite.io.Config;
+import b2c.simpleinvite.io.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -51,6 +54,7 @@ public class Invite {
     }
 
     public boolean isValid(Date currentDate) {
+    	Log.getCurrent().log("isValid? "+currentDate.getTime()+" - "+timestamp.getTime()+" <= "+Config.INVITATION_TIMEOUT+" * "+60000);
         return currentDate.getTime() - timestamp.getTime() <= Config.INVITATION_TIMEOUT * 60000;
     }
 
@@ -70,6 +74,11 @@ public class Invite {
         output.writeLong(timestamp.getTime());
         output.writeUTF(playerName);
         output.writeUTF(reason);
+    }
+    
+    @Override
+    public String toString(){
+    	return String.format("Invite(playerName=%s, timeStamp=%d, guarantor=%s)", playerName, timestamp.getTime(), guarantorID.toString());
     }
 
 

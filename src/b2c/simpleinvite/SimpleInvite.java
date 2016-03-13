@@ -2,6 +2,8 @@ package b2c.simpleinvite;
 
 import b2c.simpleinvite.io.Config;
 import b2c.simpleinvite.io.Loader;
+import b2c.simpleinvite.io.Log;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,9 +32,20 @@ public class SimpleInvite extends JavaPlugin implements Listener {
     }
 
     @Override
-    public void onEnable() {
+    public void onEnable() {    	
         getServer().getPluginManager().registerEvents(this, this);
-
+        
+        try {
+			Log.init(new File(this.getDataFolder(), "Log.log"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			throw new RuntimeException("Can't create log file");
+		}
+        
+        Log.getCurrent().log("");
+        Log.getCurrent().log("Starting the plugin");
+        Log.getCurrent().log("");
+        
         File savedData = new File(this.getDataFolder(), "SimpleInviteData");
         dataLoader = new Loader(savedData);
         if (!savedData.exists()) {
