@@ -5,12 +5,10 @@ invite:
     maxReasonLength: 32
     cooldownReinviteHours: 168
     commands:
-        say There is a new member %user% on the server!
-        pex user %user% group set Member
+        - say There is a new member %user% on the server!
+        - pex user %user% group set Member
 strike:
     maxAmount: 3
     action:
-        ban %user%
-        say %user% has now %strikes% strikes and is being punished
-	
-	
+        - ban %user%
+        - say %user% has now %strikes% strikes and is being punished
