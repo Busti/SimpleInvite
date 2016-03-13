@@ -16,14 +16,28 @@ public class Config {
     public static int HOURS_BEFORE_REINVITE;
 
     public static void load(FileConfiguration cfg) {
-        INVITATION_TIMEOUT 			= cfg.getInt("timeoutMin");
+    	Log.getCurrent().log("loading config:");
+        INVITATION_TIMEOUT 			= cfg.getInt(		"invite.timeoutMin");
         INVITATION_COMMANDS 		= cfg.getStringList("invite.commands");
-        STRIKE_MOD 					= cfg.getInt("strike.maxAmount");
+
+        MAX_INVITES_PER_INTERVALL 	= cfg.getInt(		"invite.maxInvitesPerintervall");
+        INVITE_INTERVAL_TIME 		= cfg.getInt(		"invite.intervalLengthMin");
+        REASON_LENGTH 				= cfg.getInt(		"invite.maxReasonLength");
+        HOURS_BEFORE_REINVITE 		= cfg.getInt(		"invite.cooldownReinviteHours");
+        STRIKE_MOD 					= cfg.getInt(		"strike.maxAmount");
         STRIKE_COMMANDS 			= cfg.getStringList("strike.action");
-        MAX_INVITES_PER_INTERVALL 	= cfg.getInt("invite.maxInvitesPerintervall");
-        INVITE_INTERVAL_TIME 		= cfg.getInt("invite.intervalLengthMin");
-        REASON_LENGTH 				= cfg.getInt("maxReasonLength");
-        HOURS_BEFORE_REINVITE 		= cfg.getInt("invite.cooldownReinviteHours");
+        
+        Log.getCurrent().log("invite.timeoutMin: "+INVITATION_TIMEOUT);
+        Log.getCurrent().log("invite.commands: "+INVITATION_COMMANDS);
+        
+        Log.getCurrent().log("invite.maxInvitesPerintervall: "+MAX_INVITES_PER_INTERVALL);
+        Log.getCurrent().log("invite.intervalLengthMin: "+INVITE_INTERVAL_TIME );
+        Log.getCurrent().log("invite.maxReasonLength: "+REASON_LENGTH);
+        Log.getCurrent().log("invite.cooldownReinviteHours: "+HOURS_BEFORE_REINVITE);
+        Log.getCurrent().log("strike.maxAmount: "+STRIKE_MOD);
+        Log.getCurrent().log("strike.action: "+STRIKE_COMMANDS);
+        
+        
     }
 
 }
