@@ -130,7 +130,7 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
         if (cmd.getName().equalsIgnoreCase("invite")) {
             if (!sender.hasPermission("simpleinvite.invite")) {
                 sender.sendMessage("Sorry, you don't have the permission to do that");
-                return false;
+                return true;
             }
             if (args.length < 2) {
                 sender.sendMessage("you need to type the name of the player and the reason why you want to invite him");
@@ -146,7 +146,7 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
             if (!(sender instanceof Player)) {
                 sender.sendMessage("this command can only be run by a player");
-                return false;
+                return true;
             }
 
             Player player = (Player) sender;
@@ -164,7 +164,7 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
                 if (!sender.hasPermission("simpleinvite.reload")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
-                    return false;
+                    return true;
                 }
 
                 return commandExecuter.reload(sender, this);
@@ -175,12 +175,12 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
                 if (!sender.hasPermission("simpleinvite.listself")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
-                    return false;
+                    return true;
                 }
 
                 if (!(sender instanceof Player)) {
                     sender.sendMessage("this command can only be run by a player");
-                    return false;
+                    return true;
                 }
 
                 Player player = (Player) sender;
@@ -193,12 +193,12 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
                 if (!sender.hasPermission("simpleinvite.clearself")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
-                    return false;
+                    return true;
                 }
 
                 if (!(sender instanceof Player)) {
                     sender.sendMessage("this command can only be run by a player");
-                    return false;
+                    return true;
                 }
 
                 Player player = (Player) sender;
@@ -214,7 +214,7 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
                 if (!sender.hasPermission("simpleinvite.info")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
-                    return false;
+                    return true;
                 }
 
                 commandExecuter.sendInfo(sender, args[1]);
@@ -225,7 +225,7 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
                 if (!sender.hasPermission("simpleinvite.list")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
-                    return false;
+                    return true;
                 }
                 RegisteredUser user = RegisteredUser.getUser(args[1]);
                 if (user == null) {
@@ -240,7 +240,7 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
                 if (!sender.hasPermission("simpleinvite.clear")) {
                     sender.sendMessage("Sorry, you don't have the permission to do that");
-                    return false;
+                    return true;
                 }
 
                 RegisteredUser user = RegisteredUser.getUser(args[1]);
@@ -270,7 +270,7 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
             }
 
             for (String command : Config.INVITATION_COMMANDS) {
-                getServer().dispatchCommand(getServer().getConsoleSender(), command.replaceAll("%player%", playerName));
+                getServer().dispatchCommand(getServer().getConsoleSender(), command.replaceAll("%user%", playerName));
             }
             RegisteredUser.USERS.add(new RegisteredUser(event.getPlayer().getUniqueId(), playerName, invite.guarantorID, new Date(), invite.reason, 0));
             Invite.INVITATIONEN.remove(invite);

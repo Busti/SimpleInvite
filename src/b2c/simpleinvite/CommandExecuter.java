@@ -41,27 +41,34 @@ public class CommandExecuter {
 
         if (invitedPlayerInIntervall >= Config.MAX_INVITES_PER_INTERVALL) {
             player.sendMessage("You can only invite " + Config.MAX_INVITES_PER_INTERVALL + " per " + Config.INVITE_INTERVAL_TIME + " min");
-            return false;
+            return true;
         }
         Date currentDate = new Date();
         if ((currentDate.getTime() - invitator.joinDate.getTime()) < (Config.HOURS_BEFORE_REINVITE * 24 * 60 * 1000)) {
             player.sendMessage("You must play an amount of time on this server if you want to  invite someone");
-            return false;
+            return true;
         }
 
         if (nameOfInvitedPlayer.length() > 16) {
             player.sendMessage("the name of a player can't be greater than 16");
-            return false;
+            return true;
         }
         if (reason.length() > Config.REASON_LENGTH) {
             player.sendMessage("the reason must not be greater than " + Config.REASON_LENGTH);
-            return false;
+            return true;
         }
-
-        if (Invite.getInviteForName(nameOfInvitedPlayer) != null) {
+        
+        Invite perhapsAlreadyInvited = Invite.getInviteForName(nameOfInvitedPlayer);
+        if ( perhapsAlreadyInvited != null && perhapsAlreadyInvited.isValid(new Date())) {
             player.sendMessage("this player was already invited");
-            return false;
+            return true;
         }
+        
+        if(RegisteredUser.getUser(nameOfInvitedPlayer) != null){
+        	player.sendMessage("this player is already registered");
+            return true;
+        }
+        
 
         Invite invite = new Invite(player.getUniqueId(), new Date(), nameOfInvitedPlayer, reason);
         Invite.INVITATIONEN.add(invite);
