@@ -13,3 +13,5 @@ strike:
   action:
     - ban %user%
     - say %user% has now %strikes% strikes and is being punished
+io:
+  binaryMode: false

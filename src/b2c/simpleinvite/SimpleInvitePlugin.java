@@ -1,6 +1,7 @@
 package b2c.simpleinvite;
 
 import b2c.simpleinvite.io.Config;
+import b2c.simpleinvite.io.FileConfigurationLoader;
 import b2c.simpleinvite.io.Loader;
 import b2c.simpleinvite.io.Log;
 
@@ -9,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,20 +22,40 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
     Loader dataLoader;
+    FileConfigurationLoader fileConfigLoader;
     CommandExecuter commandExecuter = new CommandExecuter();
 
     @Override
     public void onDisable() {
-        try {
-            dataLoader.writeData();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Can't save dataFile");
-        }
+    	
+    	if(Config.BINARY_MODE){
+    		try {
+    			dataLoader.writeData();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    			throw new RuntimeException("Can't save dataFile (Binary)");
+    		}
+    		
+    	}else{
+    		YamlConfiguration savedDataYMLData = new YamlConfiguration();
+    		fileConfigLoader.save(savedDataYMLData);
+    		File savedDataYML = new File(this.getDataFolder(), "simpleInviteData.yml");
+    		try {
+    			savedDataYMLData.save(savedDataYML);
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    			throw new RuntimeException("Can't save dataFile (YML)");
+    		}
+    	}
+    	
+    	
+        
+        
     }
 
     @Override
@@ -63,34 +85,42 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
         } else {
             Log.getCurrent().log("config.yml found, loading!");
         }
+        
         Config.load(getConfig());
         
 
-        File savedData = new File(this.getDataFolder(), "SimpleInviteData");
-        dataLoader = new Loader(savedData);
-        if (!savedData.exists()) {
-            this.getDataFolder().mkdirs();
-
-            try {
-                savedData.createNewFile();
-                dataLoader.writeData();
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Can't create data file");
-            }
-        }
-
-        
-        try {
-            dataLoader.readData();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Can't read dataFile");
-        }
-        
-
-        
-        
+        if(Config.BINARY_MODE){
+	        File savedData = new File(this.getDataFolder(), "SimpleInviteData.bin");
+	        dataLoader = new Loader(savedData);
+	        if (!savedData.exists()) {
+	            this.getDataFolder().mkdirs();
+	
+	            try {
+	                savedData.createNewFile();
+	                dataLoader.writeData();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	                throw new RuntimeException("Can't create data file");
+	            }
+	        }
+	        try {
+	            dataLoader.readData();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            throw new RuntimeException("Can't read dataFile");
+	        }
+        }else{
+	        File savedDataYML = new File(this.getDataFolder(), "simpleInviteData.yml");
+	        YamlConfiguration savedDataYMLData = new YamlConfiguration();
+	        try {
+				savedDataYMLData.load(savedDataYML);
+			} catch (IOException | InvalidConfigurationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        fileConfigLoader = new FileConfigurationLoader();
+	        fileConfigLoader.read(savedDataYMLData);
+        }   
 
     }
 

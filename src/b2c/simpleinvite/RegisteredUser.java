@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import org.bukkit.configuration.file.FileConfiguration;
+
 /**
  * Created by Peer on 05.03.2016.
  */
@@ -95,4 +97,9 @@ public class RegisteredUser {
     public String toString(){
     	return "RegisteredUser(name="+name+", uuid="+id.toString()+", joinDate="+joinDate+", invitedBy="+invitedBy.toString()+")";
     }
+
+	public int getStrikes() {
+		// TODO Auto-generated method stub
+		return strikes;
+	}
 }

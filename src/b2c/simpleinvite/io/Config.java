@@ -15,6 +15,7 @@ public class Config {
     public static int INVITE_INTERVAL_TIME;
     public static int REASON_LENGTH;
     public static int HOURS_BEFORE_REINVITE;
+    public static boolean BINARY_MODE;
 
     public static void load(FileConfiguration cfg) {
     	Log.getCurrent().log("loading config:");
@@ -28,6 +29,8 @@ public class Config {
         HOURS_BEFORE_REINVITE 		= cfg.getInt(		"invite.cooldownReinviteHours");
         STRIKE_MOD 					= cfg.getInt(		"strike.maxAmount");
         STRIKE_COMMANDS 			= cfg.getStringList("strike.action");
+        
+        BINARY_MODE					= cfg.getBoolean("io.binaryMode");
 
         if (DEBUG) {
             Log.getCurrent().log("invite.timeoutMin: " + INVITATION_TIMEOUT);
