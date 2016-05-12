@@ -144,8 +144,8 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
                 sender.sendMessage("Sorry, you don't have the permission to do that");
                 return true;
             }
-            if (args.length < 2) {
-                sender.sendMessage("you need to type the name of the player and the reason why you want to invite him");
+            if (args.length < 1) {
+                sender.sendMessage("you need to type the name of the player you want invite");
                 return false;
             }
 
