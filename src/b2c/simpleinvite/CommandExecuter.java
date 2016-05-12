@@ -64,6 +64,11 @@ public class CommandExecuter {
             return true;
         }
         
+        if(player.getName().equalsIgnoreCase(nameOfInvitedPlayer)){
+        	player.sendMessage("you can not invite yourself");
+        	return false;
+        }
+        
         Invite perhapsAlreadyInvited = Invite.getInviteForName(nameOfInvitedPlayer);
         if ( perhapsAlreadyInvited != null && perhapsAlreadyInvited.isValid(new Date())) {
             player.sendMessage("this player was already invited");
