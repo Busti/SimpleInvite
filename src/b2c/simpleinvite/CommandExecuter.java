@@ -1,6 +1,8 @@
 package b2c.simpleinvite;
 
 import b2c.simpleinvite.io.Config;
+
+import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -23,7 +25,7 @@ public class CommandExecuter {
     }
 
 
-    public boolean invite(Player player, String nameOfInvitedPlayer, String reason) {
+    public boolean invite(Player player, String nameOfInvitedPlayer, String reason, SimpleInvitePlugin plugin) {
     	
     	nameOfInvitedPlayer = nameOfInvitedPlayer.replaceAll("\\.", "_");
     	
@@ -74,8 +76,18 @@ public class CommandExecuter {
         }
         
 
+        
+        Player playerOnServer = null;
+        for(Player p: plugin.getServer().getOnlinePlayers()){
+        	if(p.getName().equalsIgnoreCase(nameOfInvitedPlayer)){
+        		playerOnServer = p;
+        	}
+        }
+        
         Invite invite = new Invite(player.getUniqueId(), new Date(), nameOfInvitedPlayer, reason);
         Invite.INVITATIONEN.add(invite);
+        
+        plugin.checkPlayer(playerOnServer);
 
         return true;
     }

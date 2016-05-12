@@ -163,7 +163,7 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
             Player player = (Player) sender;
 
-            return commandExecuter.invite(player, nameOfInvitedPlayer, reasonBuilder.toString());
+            return commandExecuter.invite(player, nameOfInvitedPlayer, reasonBuilder.toString(), this);
         }
 
         if (cmd.getName().equalsIgnoreCase("simpleInvite")) {
@@ -269,12 +269,9 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
 
         return false;
     }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        String playerName = event.getPlayer().getName();
-
-        Invite invite = Invite.getInviteForName(playerName);
+    
+    public void checkPlayer(Player player){
+    	Invite invite = Invite.getInviteForName(player.getName());
         if (invite != null) {
 
             if (!invite.isValid(new Date())) {
@@ -282,14 +279,19 @@ public class SimpleInvitePlugin extends JavaPlugin implements Listener {
             }
 
             for (String command : Config.INVITATION_COMMANDS) {
-                getServer().dispatchCommand(getServer().getConsoleSender(), command.replaceAll("%user%", playerName));
+                getServer().dispatchCommand(getServer().getConsoleSender(), command.replaceAll("%user%", player.getName()));
             }
-            RegisteredUser.USERS.add(new RegisteredUser(event.getPlayer().getUniqueId(), playerName, invite.guarantorID, new Date(), invite.reason, 0));
+            RegisteredUser.USERS.add(new RegisteredUser(player.getUniqueId(), player.getName(), invite.guarantorID, new Date(), invite.reason, 0));
             Invite.INVITATIONEN.remove(invite);
 
-            event.getPlayer().sendMessage("Welcome on this Server");
-            event.getPlayer().sendMessage(invite.playerName + "is your guarantor!");
+            player.sendMessage("Welcome on this Server");
+            player.sendMessage(invite.playerName + "is your guarantor!");
         }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        
     }
 
     public Loader getDataLoader() {
